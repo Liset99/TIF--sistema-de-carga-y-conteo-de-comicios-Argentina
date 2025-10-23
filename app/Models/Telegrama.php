@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class telegramas extends Model
+class Telegrama extends Model
 {
     use HasFactory;
-    protected $table = 'telegramas';
+    protected $table = 'Telegrama';
     protected $primaryKey = 'idTelegrama';
     public $incrementing = false;
     protected $keyType = 'int';

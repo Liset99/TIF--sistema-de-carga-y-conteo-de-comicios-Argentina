@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class listas extends Model
+class Lista extends Model
 {
     use HasFactory;
-    protected $table = 'listas';
+    protected $table = 'Lista';
     protected $primaryKey = 'idLista';
     public $incrementing = false;
     protected $keyType = 'int';

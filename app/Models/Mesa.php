@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class mesas extends Model
+class Mesa extends Model
 {
     use HasFactory;
-    protected $table = 'mesas';
+    protected $table = 'Mesa';
     protected $primaryKey = 'idMesa';
     public $incrementing = false;
     protected $keyType = 'int';

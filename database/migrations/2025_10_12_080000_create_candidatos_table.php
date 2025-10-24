@@ -16,10 +16,9 @@ return new class extends Migration
         Schema::create('candidatos', function (Blueprint $table) {
             $table->id('idCandidato');
             $table->string('carga');
-            $table->integer('ordenEnLista');
 
             $table->unsignedBigInteger('dni')->nullable();
-            $table->unsignedBigInteger('idLista')->nullable();
+            $table->unsignedBigInteger('ordenEnLista')->nullable();
 
 
             $table->foreign('dni')
@@ -27,7 +26,7 @@ return new class extends Migration
             ->on('personas')
             ->onDelete('set null');
 
-            $table->foreign('idLista')
+            $table->foreign('ordenEnLista')
             ->references('idLista')
             ->on('listas')
             ->onDelete('set null');

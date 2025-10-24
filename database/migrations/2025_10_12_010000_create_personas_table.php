@@ -17,7 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('dni')->primary();
             $table->string('nombre');
             $table->string('apellido');
-            $table->string('rol');
+            $table->string('rolPersona');
         });
     }
 

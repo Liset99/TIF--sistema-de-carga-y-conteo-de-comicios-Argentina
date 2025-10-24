@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CandidatosController;
+use App\Http\Controllers\MesasController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +15,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/a', function () {
-    return view('welcome');
+Route::get('/', function () {
+    return 'Sistema de Carga y Conteo de Comicios Argentina 2025';
 });
+// Rutas de prueba para los controladores
+Route::get('/candidatos', [CandidatosController::class, 'index']);
+Route::get('/mesas', [MesasController::class, 'index']);

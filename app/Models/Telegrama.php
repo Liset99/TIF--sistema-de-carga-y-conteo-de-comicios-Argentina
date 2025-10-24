@@ -27,16 +27,16 @@ class Telegrama extends Model
     
     public function resultados()
     {
-        return $this->hasMany(Resultado::class, 'idTelegrama');
+        return $this->hasMany(resultados::class, 'idTelegrama', 'idTelegrama');
     }
 
     public function mesas()
     {
-        return $this->belongsTo(Mesa::class, 'idMesa');
+        return $this->belongsTo(mesas::class, 'idMesa', 'idMesa');
     }
 
     public function usuarios()
     {
-        return $this->belongsTo(Usuario::class, 'idUsuario');
+        return $this->belongsTo(usuarios::class, 'idUsuario', 'idUsuario');
     }
 }

@@ -17,11 +17,11 @@ class Resultado extends Model
     
     public function telegramas()
     {
-        return $this->belongsTo(Telegrama::class, 'idTelegrama');
+        return $this->belongsTo(telegramas::class, 'idTelegrama', 'idTelegrama');
     }
 
     public function listas()
     {
-        return $this->belongsTo(Lista::class, 'idLista');
+        return $this->belongsTo(listas::class, 'lista', 'idLista');
     }
 }

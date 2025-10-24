@@ -13,13 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('usuarios', function (Blueprint $table) {
-            $table->id('idUsuario');
-            $table->string('nombreDeUsuario');
-            $table->string('contraseña');
-            $table->string('rol');
-            $table->foreignId('dni')->constrained('personas', 'dni')->onDelete('cascade');
-            $table->timestamps();
+        Schema::create('provincias', function (Blueprint $table) {
+            $table->bigIncrements('idProvincia');
+            $table->string('nombreProvincia');                                  
         });
     }
 
@@ -30,6 +26,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('usuarios');
+        Schema::dropIfExists('provincias');
     }
 };

@@ -17,11 +17,11 @@ class Persona extends Model
 
     public function candidatos()
     {
-        return $this->hasOne(Candidato::class, 'dni');
+        return $this->hasOne(candidatos::class, 'dni', 'dni');
     }
 
     public function usuarios()
     {
-        return $this->hasOne(Usuario::class, 'dni');
+        return $this->hasOne(usuarios::class, 'dni', 'dni');
     }
 }

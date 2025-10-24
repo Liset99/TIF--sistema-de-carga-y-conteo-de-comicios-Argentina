@@ -21,8 +21,12 @@ return new class extends Migration
             $table->integer('nulos');
             $table->integer('impugnados');
             $table->dateTime('fechaHora');
-            $table->foreignId('idMesa')->constrained('mesas', 'idMesa')->onDelete('cascade');
-            $table->timestamps();
+
+            $table->unsignedBigInteger('idMesa')->nullable();
+            $table->unsignedBigInteger('idUsuario')->nullable();
+
+            $table->foreign('idMesa')->references('idMesa')->on('mesas')->onDelete('set null');
+            $table->foreign('idUsuario')->references('idUsuario')->on('usuarios')->onDelete('set null');
         });
     }
 

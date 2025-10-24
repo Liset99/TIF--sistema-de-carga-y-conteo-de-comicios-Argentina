@@ -13,15 +13,15 @@ class Candidato extends Model
     public $incrementing = false;
     protected $keyType = 'int';
 
-    protected $fillable = ['idCandidato', 'dni', 'cargo', 'ordenEnLista', 'idLista'];
+    protected $fillable = ['idCandidato', 'dni', 'cargo', 'ordenEnLista', 'nombre', 'apellido', 'idLista'];
     
     public function personas()
     {
-        return $this->belongsTo(personas::class, 'dni');
+        return $this->belongsTo(personas::class, 'dni', 'dni');
     }
 
     public function listas()
     {
-        return $this->belongsTo(listas::class, 'idLista');
+        return $this->belongsTo(listas::class, 'idLista', 'ordenEnLista');
     }
 }

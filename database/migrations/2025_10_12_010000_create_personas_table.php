@@ -13,12 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('mesas', function (Blueprint $table) {
-            $table->id('idMesa');
-            $table->string('establecimiento');
-            $table->string('circuito');
-            $table->foreignId('idProvincia')->constrained('provincias', 'idProvincia')->onDelete('cascade');
-            $table->timestamps();
+        Schema::create('personas', function (Blueprint $table) {
+            $table->unsignedBigInteger('dni')->primary();
+            $table->string('nombre');
+            $table->string('apellido');
         });
     }
 
@@ -29,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('mesas');
+        Schema::dropIfExists('personas');
     }
 };

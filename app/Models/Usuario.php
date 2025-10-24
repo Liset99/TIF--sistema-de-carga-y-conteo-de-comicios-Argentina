@@ -17,12 +17,12 @@ class Usuario extends Model
 
     public function persona()
     {
-        return $this->belongsTo(Persona::class, 'dni'); 
+        return $this->belongsTo(personas::class, 'dni', 'dni'); 
     }
 
     
     public function telegramas()
     {
-        return $this->hasMany(Telegrama::class, 'idUsuario');
+        return $this->hasMany(telegramas::class, 'idUsuario', 'idUsuario');
     }
 }

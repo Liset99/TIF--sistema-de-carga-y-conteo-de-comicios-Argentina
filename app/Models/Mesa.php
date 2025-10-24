@@ -13,16 +13,16 @@ class Mesa extends Model
     public $incrementing = false;
     protected $keyType = 'int';
 
-    protected $fillable = ['idMesa', 'electores', 'establecimiento', 'circuito', 'idProvincia'];
+    protected $fillable = ['idMesa', 'electores', 'establecimiento', 'circuito', 'nombreProvincia'];
 
     public function telegramas()
     {
-        return $this->hasMany(Telegrama::class, 'idMesa');
+        return $this->hasMany(telegramas::class, 'idMesa', 'idMesa');
     }
 
     public function provincias()
     {
-        return $this->belongsTo(Provincia::class, 'idProvincia');
+        return $this->belongsTo(provincias::class, 'nombreProvincia', 'nombreProvincia');
     }
 
 }

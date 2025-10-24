@@ -13,22 +13,22 @@ class Lista extends Model
     public $incrementing = false;
     protected $keyType = 'int';
 
-    protected $fillable = ['idLista', 'nombre', 'alianza', 'cargo', 'idProvincia'];
+    protected $fillable = ['idLista', 'nombre', 'alianza', 'cargoDiputado', 'cargoSenador','nombreProvincia'];
 
     public function provincia()
     {
-        return $this->belongsTo(Provincia::class, 'idProvincia');
+        return $this->belongsTo(provincias::class,'nombreProvincia', 'nombreProvincia');
     }
 
     
     public function resultados()
     {
-        return $this->hasMany(Resultado::class, 'idLista');
+        return $this->hasMany(resultados::class, 'lista', 'idLista');
     }
 
 
     public function candidatos()
     {
-        return $this->hasMany(Candidato::class, 'idLista');
+        return $this->hasMany(candidatos::class, 'ordenEnLista', 'idLista');
     }
 }

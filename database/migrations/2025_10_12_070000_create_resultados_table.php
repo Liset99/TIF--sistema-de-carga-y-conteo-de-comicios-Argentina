@@ -17,9 +17,20 @@ return new class extends Migration
             $table->id('idResultado');
             $table->float('porcentaje');
             $table->integer('votos');
-            $table->foreignId('idLista')->constrained('listas', 'idLista')->onDelete('cascade');
-            $table->foreignId('idTelegrama')->constrained('telegramas', 'idTelegrama')->onDelete('cascade');
-            $table->timestamps();
+
+            $table->unsignedBigInteger('idTelegrama')->nullable();
+            $table->unsignedBigInteger('idLista')->nullable();
+
+
+            $table->foreign('idTelegrama')
+            ->references('idTelegrama')
+            ->on('telegramas')
+            ->onDelete('set null');
+
+            $table->foreign('idLista')
+            ->references('idLista')
+            ->on('listas')
+            ->onDelete('set null');
         });
     }
 

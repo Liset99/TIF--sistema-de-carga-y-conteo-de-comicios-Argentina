@@ -14,12 +14,16 @@ return new class extends Migration
     public function up()
     {
         Schema::create('listas', function (Blueprint $table) {
-            $table->id('idLista');
-            $table->string('nombre');
+            $table->bigIncrements('idLista');
             $table->string('alianza');
             $table->string('cargo');
-            $table->foreignId('idProvincia')->constrained('provincias', 'idProvincia')->onDelete('cascade');
-            $table->timestamps();
+            $table->unsignedBigInteger('idProvincia')->nullable();
+
+            $table->foreign('idProvincia')
+            ->references('idProvincia')
+            ->on('provincias')
+            ->onDelete('set null');
+
         });
     }
 

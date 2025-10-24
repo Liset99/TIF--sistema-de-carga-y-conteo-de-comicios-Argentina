@@ -17,9 +17,20 @@ return new class extends Migration
             $table->id('idCandidato');
             $table->string('carga');
             $table->integer('ordenEnLista');
-            $table->foreignId('dni')->constrained('personas', 'dni')->onDelete('cascade');
-            $table->foreignId('idLista')->constrained('listas', 'idLista')->onDelete('cascade');
-            $table->timestamps();
+
+            $table->unsignedBigInteger('dni')->nullable();
+            $table->unsignedBigInteger('idLista')->nullable();
+
+
+            $table->foreign('dni')
+            ->references('dni')
+            ->on('personas')
+            ->onDelete('set null');
+
+            $table->foreign('idLista')
+            ->references('idLista')
+            ->on('listas')
+            ->onDelete('set null');
         });
     }
 

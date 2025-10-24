@@ -14,7 +14,13 @@ class PersonasSeeder extends Seeder
      */
     public function run()
     {
-        
+        $persona = Persona::create([
+            'dni' => 12345678,
+            'nombre' => 'Juan',
+            'apellido' => 'Pérez',
+            'rolPersona' => 'ciudadano'
+        ]);
+
 
     }
 }

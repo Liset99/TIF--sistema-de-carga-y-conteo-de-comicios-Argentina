@@ -14,6 +14,12 @@ class ListasSeeder extends Seeder
      */
     public function run()
     {
-        
+        $lista = Lista::create([
+            'idLista' => 1,
+            'alianza' => 'Alianza X',
+            'cargo' => 'Diputado',
+            'idProvincia' => 1
+        ]);
+
     }
 }

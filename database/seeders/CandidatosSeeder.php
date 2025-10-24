@@ -14,6 +14,16 @@ class CandidatosSeeder extends Seeder
      */
     public function run()
     {
-        
+        $candidato = Candidato::create([
+            'idCandidato' => 1,
+            'dni' => 12345678,
+            'cargo' => 'Diputado',
+            'ordenEnLista' => 1,
+            'nombre' => 'Juan',
+            'apellido' => 'Pérez',
+            'idLista' => 1,
+            'rolPersona' => 'candidato'
+        ]);
+
     }
 }

@@ -9,7 +9,11 @@ class MesasController extends Controller
      // Muestra todas las mesas
     public function index()
     {
-         return "¡Mesas funcionando!";
+         // Trae todas las mesas de la base
+        $mesas = Mesa::all();
+
+        // Devuelve una vista (si la tuvieras) o por ahora mostramos los datos
+        return response()->json($mesas);
     }
 
     // Crear una nueva mesa

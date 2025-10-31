@@ -47,4 +47,23 @@ class CandidatosController extends Controller
 
         return response()->json(['mensaje' => 'Candidato eliminado correctamente']);
     }
+    // Obtener candidatos por provincia y cargo
+    public function porProvinciaYCargo($provincia, $cargo) {
+        $candidatos = Candidato::where('provincia', $provincia)
+                             ->where('cargo', $cargo)
+                             ->orderBy('orden_en_lista')
+                             ->get();
+        return response()->json($candidatos);
+}
+
+// Calcular votos totales de un candidato (requiere relación con Telegrama)
+    public function totalVotos($idCandidato) {
+         $candidato = Candidato::findOrFail($idCandidato);
+         $votos = $candidato->telegramas()->sum('votos');
+         
+         return response()->json([
+        'candidato' => $candidato->nombre,
+        'total_votos' => $votos
+    ]);
+}
 }

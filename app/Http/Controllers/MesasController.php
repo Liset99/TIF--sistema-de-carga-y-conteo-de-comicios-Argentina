@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Telegrama;
+use App\Models\Mesa;
 
 class MesasController extends Controller
 {  
@@ -58,4 +60,27 @@ class MesasController extends Controller
         // Respondemos al usuario
         return response()->json(['mensaje' => 'Mesa eliminada correctamente']);
     }  
+    // Ingresar resultados de una mesa (votos por lista y cargo)
+public function storeTelegrama(Request $request) {
+    $request->validate([
+        'id_mesa' => 'required|integer|exists:mesas,id_mesa',
+        'lista' => 'required|string|max:100',
+        'votos_diputados' => 'required|integer|min:0',
+        'votos_senadores' => 'required|integer|min:0',
+        'blancos' => 'required|integer|min:0',
+        'nulos' => 'required|integer|min:0',
+        'recurridos' => 'required|integer|min:0'
+    ]);
+
+    $mesa = Mesa::findOrFail($request->id_mesa);
+    $totalVotos = $request->votos_diputados + $request->votos_senadores +
+                  $request->blancos + $request->nulos + $request->recurridos;
+
+    if ($totalVotos > $mesa->electores) {
+        return response()->json(['error' => 'La suma de votos supera la cantidad de electores'], 422);
+    }
+
+    $telegrama = Telegrama::create($request->all());
+    return response()->json(['mensaje' => 'Telegrama registrado', 'telegrama' => $telegrama]);
+    }
 }

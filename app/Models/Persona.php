@@ -8,20 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class Persona extends Model
 {
     use HasFactory;
-    protected $table = 'Persona';
+
+    protected $table = 'Personas';
     protected $primaryKey = 'dni';
     public $incrementing = false;
-    protected $keyType = 'int';
+    protected $keyType = 'string';
 
-    protected $fillable = ['dni', 'nombre', 'apellido', 'rol'];
-
+    protected $fillable = ['dni', 'nombre', 'apellido'];
+    
     public function candidatos()
     {
-        return $this->hasOne(candidatos::class, 'dni', 'dni');
-    }
-
-    public function usuarios()
-    {
-        return $this->hasOne(usuarios::class, 'dni', 'dni');
+        return $this->hasMany(Candidato::class, 'dni', 'dni');
     }
 }

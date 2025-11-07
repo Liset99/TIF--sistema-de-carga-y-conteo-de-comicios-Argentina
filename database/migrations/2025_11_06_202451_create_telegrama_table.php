@@ -13,21 +13,24 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('telegramas', function (Blueprint $table) {
-            $table->id('idTelegrama');
+        Schema::create('Telegrama', function (Blueprint $table) {
+            $table->integer('idTelegrama')->primary();
             $table->integer('votosDiputados');
             $table->integer('votosSenadores');
             $table->integer('blancos');
             $table->integer('nulos');
             $table->integer('impugnados');
             $table->dateTime('fechaHora');
+            $table->integer('idMesa');
+            $table->integer('idUsuario');
 
-            $table->unsignedBigInteger('idMesa')->nullable();
-            $table->unsignedBigInteger('idUsuario')->nullable();
+            $table->timestamps();
 
-            $table->foreign('idMesa')->references('idMesa')->on('mesas')->onDelete('set null');
-            $table->foreign('idUsuario')->references('idUsuario')->on('usuarios')->onDelete('set null');
+            $table->foreign('idMesa')->references('idMesa')->on('Mesa');
+            $table->foreign('idUsuario')->references('idUsuario')->on('Usuario');
         });
+
+
     }
 
     /**
@@ -37,6 +40,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('telegramas');
+        Schema::dropIfExists('Telegrama');
     }
 };

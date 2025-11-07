@@ -5,23 +5,26 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class provincias extends Model
+class Provincia extends Model
 {
     use HasFactory;
-    protected $table = 'provincias';      
-    protected $primaryKey = 'idProvincia'; 
+
+    protected $table = 'provincias';
+    protected $primaryKey = 'idProvincia';
     public $incrementing = false;
-    protected $keyType = 'string';         
+    protected $keyType = 'int';
 
-    protected $fillable = ['nombre'];
+    protected $fillable = ['idProvincia', 'nombre'];
 
+    // 🔹 Relación con Lista: FK en Lista.idProvincia → provincias.idProvincia
     public function listas()
     {
-        return $this->hasMany(listas::class, 'nombreProvincia', 'nombreProvincia');
+        return $this->hasMany(Lista::class, 'idProvincia', 'idProvincia');
     }
 
+    // 🔹 Relación con Mesa: FK en Mesa.idProvincia → provincias.idProvincia
     public function mesas()
     {
-        return $this->hasMany(mesas::class, 'nombreProvincia', 'nombreProvincia');
+        return $this->hasMany(Mesa::class, 'idProvincia', 'idProvincia');
     }
 }

@@ -8,20 +8,21 @@ use Illuminate\Database\Eloquent\Model;
 class Candidato extends Model
 {
     use HasFactory;
-    protected $table = 'Candidato';
+
+    protected $table = 'candidatos';
     protected $primaryKey = 'idCandidato';
     public $incrementing = false;
     protected $keyType = 'int';
 
     protected $fillable = ['idCandidato', 'dni', 'cargo', 'ordenEnLista', 'nombre', 'apellido', 'idLista'];
     
-    public function personas()
+    public function persona()
     {
-        return $this->belongsTo(personas::class, 'dni', 'dni');
+        return $this->belongsTo(Persona::class, 'dni', 'dni');
     }
 
-    public function listas()
+    public function lista()
     {
-        return $this->belongsTo(listas::class, 'idLista', 'ordenEnLista');
+        return $this->belongsTo(Lista::class, 'idLista', 'idLista');
     }
 }

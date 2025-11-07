@@ -14,9 +14,11 @@ return new class extends Migration
     public function up()
     {
         Schema::create('provincias', function (Blueprint $table) {
-            $table->bigIncrements('idProvincia');
-            $table->string('nombreProvincia');                                  
+            $table->string('idProvincia')->primary();
+            $table->string('nombre');
+            $table->timestamps();
         });
+
     }
 
     /**

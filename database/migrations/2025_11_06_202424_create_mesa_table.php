@@ -13,18 +13,18 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('mesas', function (Blueprint $table) {
-            $table->id('idMesa');
+        Schema::create('Mesa', function (Blueprint $table) {
+            $table->integer('idMesa')->primary();
+            $table->integer('electores');
             $table->string('establecimiento');
             $table->string('circuito');
+            $table->string('idProvincia');
+            $table->timestamps();
 
-            $table->unsignedBigInteger('idProvincia')->nullable();
-
-            $table->foreign('idProvincia')
-            ->references('idProvincia')
-            ->on('provincias')
-            ->onDelete('set null');
+            $table->foreign('idProvincia')->references('idProvincia')->on('provincias');
         });
+
+
     }
 
     /**
@@ -34,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('mesas');
+        Schema::dropIfExists('Mesa');
     }
 };

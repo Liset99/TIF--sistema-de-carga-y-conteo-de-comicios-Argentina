@@ -8,21 +8,30 @@ use Illuminate\Database\Eloquent\Model;
 class Mesa extends Model
 {
     use HasFactory;
+
     protected $table = 'Mesa';
     protected $primaryKey = 'idMesa';
     public $incrementing = false;
     protected $keyType = 'int';
 
-    protected $fillable = ['idMesa', 'electores', 'establecimiento', 'circuito', 'nombreProvincia'];
+    protected $fillable = [
+        'idMesa',
+        'electores',
+        'establecimiento',
+        'circuito',
+        'idProvincia'
+    ];
 
-    public function telegramas()
+    // 🔹 FK: idProvincia → provincias.idProvincia
+    public function provincia()
     {
-        return $this->hasMany(telegramas::class, 'idMesa', 'idMesa');
+        return $this->belongsTo(Provincia::class, 'idProvincia', 'idProvincia');
     }
 
-    public function provincias()
+    // 🔹 Relación con Telegrama: FK en Telegrama.idMesa → Mesa.idMesa
+    public function telegramas()
     {
-        return $this->belongsTo(provincias::class, 'nombreProvincia', 'nombreProvincia');
+        return $this->hasMany(Telegrama::class, 'idMesa', 'idMesa');
     }
 
 }

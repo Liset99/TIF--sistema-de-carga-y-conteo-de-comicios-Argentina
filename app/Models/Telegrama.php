@@ -8,12 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Telegrama extends Model
 {
     use HasFactory;
+
     protected $table = 'Telegrama';
     protected $primaryKey = 'idTelegrama';
     public $incrementing = false;
     protected $keyType = 'int';
 
-     protected $fillable = [
+    protected $fillable = [
         'idTelegrama',
         'votosDiputados',
         'votosSenadores',
@@ -27,16 +28,16 @@ class Telegrama extends Model
     
     public function resultados()
     {
-        return $this->hasMany(resultados::class, 'idTelegrama', 'idTelegrama');
+        return $this->hasMany(Resultado::class, 'idTelegrama', 'idTelegrama');
     }
 
-    public function mesas()
+    public function mesa()
     {
-        return $this->belongsTo(mesas::class, 'idMesa', 'idMesa');
+        return $this->belongsTo(Mesa::class, 'idMesa', 'idMesa');
     }
 
-    public function usuarios()
+    public function usuario()
     {
-        return $this->belongsTo(usuarios::class, 'idUsuario', 'idUsuario');
+        return $this->belongsTo(Usuario::class, 'idUsuario', 'idUsuario');
     }
 }

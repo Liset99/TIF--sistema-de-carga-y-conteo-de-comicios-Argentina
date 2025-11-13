@@ -14,13 +14,13 @@ class ResultadosSeeder extends Seeder
      */
     public function run()
     {
-        $resultado = Resultado::create([
-            'idResultado' => 1,
-            'votos' => 100,
-            'porcentaje' => 60.0,
-            'idLista' => 1,
-            'idTelegrama' => 1
-        ]);
+        //$resultado = Resultado::create([
+        //    'idResultado' => 1,
+        //    'votos' => 100,
+        //    'porcentaje' => 60.0,
+        //    'idLista' => 1,
+        //    'idTelegrama' => 1
+        //]);
 
     }
 }

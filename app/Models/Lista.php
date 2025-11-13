@@ -23,19 +23,16 @@ class Lista extends Model
         'idProvincia'
     ];
 
-    // 🔹 FK: idProvincia → provincias.idProvincia
     public function provincia()
     {
         return $this->belongsTo(Provincia::class, 'idProvincia', 'idProvincia');
     }
 
-    // 🔹 Relación con Candidato: FK en Candidato.idLista → Lista.idLista
     public function candidatos()
     {
         return $this->hasMany(Candidato::class, 'idLista', 'idLista');
     }
 
-    // 🔹 Relación con Resultado: FK en Resultado.idLista → Lista.idLista
     public function resultados()
     {
         return $this->hasMany(Resultado::class, 'idLista', 'idLista');

@@ -14,7 +14,13 @@ class Resultado extends Model
     public $incrementing = false;
     protected $keyType = 'int';
 
-    protected $fillable = ['idResultado', 'votos', 'porcentaje', 'idLista', 'idTelegrama'];
+    protected $fillable = [
+        'idResultado',
+        'votos',
+        'porcentaje',
+        'idLista',
+        'idTelegrama'
+    ];
     
     public function telegrama()
     {

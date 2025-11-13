@@ -14,14 +14,14 @@ class UsuariosSeeder extends Seeder
      */
     public function run()
     {
-        $usuario = Usuario::create([
-            'idUsuario' => 1,
-            'nombreDeUsuario' => 'juanp',
-            'contrasenia' => '1234',
-            'rolUsuario' => 'admin',
-            'dni' => 12345678,
-            'rolPersona' => 'administrador'
-        ]);
+        //$usuario = Usuario::create([
+        //    'idUsuario' => 1,
+        //    'nombreDeUsuario' => 'juanp',
+        //    'contrasenia' => '1234',
+        //   'rolUsuario' => 'admin',
+        //    'dni' => 12345678,
+        //    'rolPersona' => 'administrador'
+        //]);
 
     }
 }

@@ -6,12 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
+    public function up(): void
     {
         Schema::create('Resultado', function (Blueprint $table) {
             $table->integer('idResultado')->primary();
@@ -19,22 +14,20 @@ return new class extends Migration
             $table->decimal('porcentaje', 5, 2);
             $table->integer('idLista');
             $table->integer('idTelegrama');
-            $table->timestamps();
 
-            $table->foreign('idLista')->references('idLista')->on('Lista');
-            $table->foreign('idTelegrama')->references('idTelegrama')->on('Telegrama');
+            $table->foreign('idLista')
+                  ->references('idLista')
+                  ->on('Lista')
+                  ->onDelete('cascade');
+
+            $table->foreign('idTelegrama')
+                  ->references('idTelegrama')
+                  ->on('Telegrama')
+                  ->onDelete('cascade');
         });
-
-
-
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('Resultado');
     }

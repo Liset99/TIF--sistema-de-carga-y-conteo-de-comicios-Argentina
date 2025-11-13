@@ -20,4 +20,9 @@ class Persona extends Model
     {
         return $this->hasMany(Candidato::class, 'dni', 'dni');
     }
+
+    public function usuario()
+    {
+        return $this->hasOne(Usuario::class, 'dni', 'dni');
+    }
 }

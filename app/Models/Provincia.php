@@ -16,13 +16,11 @@ class Provincia extends Model
 
     protected $fillable = ['idProvincia', 'nombre'];
 
-    // 🔹 Relación con Lista: FK en Lista.idProvincia → provincias.idProvincia
     public function listas()
     {
         return $this->hasMany(Lista::class, 'idProvincia', 'idProvincia');
     }
 
-    // 🔹 Relación con Mesa: FK en Mesa.idProvincia → provincias.idProvincia
     public function mesas()
     {
         return $this->hasMany(Mesa::class, 'idProvincia', 'idProvincia');

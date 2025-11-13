@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Usuario extends Model
 {
     use HasFactory;
+
     protected $table = 'Usuario';
     protected $primaryKey = 'idUsuario';
     public $incrementing = false;
@@ -17,12 +18,11 @@ class Usuario extends Model
 
     public function persona()
     {
-        return $this->belongsTo(personas::class, 'dni', 'dni'); 
+        return $this->belongsTo(Persona::class, 'dni', 'dni');
     }
 
-    
     public function telegramas()
     {
-        return $this->hasMany(telegramas::class, 'idUsuario', 'idUsuario');
+        return $this->hasMany(Telegrama::class, 'idUsuario', 'idUsuario');
     }
 }

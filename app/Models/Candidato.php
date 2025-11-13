@@ -9,13 +9,18 @@ class Candidato extends Model
 {
     use HasFactory;
 
-    protected $table = 'candidatos';
+    protected $table = 'Candidato';
     protected $primaryKey = 'idCandidato';
     public $incrementing = false;
     protected $keyType = 'int';
 
-    protected $fillable = ['idCandidato', 'dni', 'cargo', 'ordenEnLista', 'nombre', 'apellido', 'idLista'];
-    
+    protected $fillable = [
+        'idCandidato',
+        'cargo',
+        'dni',
+        'idLista'
+    ];
+
     public function persona()
     {
         return $this->belongsTo(Persona::class, 'dni', 'dni');

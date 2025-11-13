@@ -14,10 +14,10 @@ class ProvinciasSeeder extends Seeder
      */
     public function run()
     {
-       $provincia = provincias::create([
-            'idProvincia' => 1,
-            'nombreProvincia' => 'Buenos Aires'
-        ]);
+       //$provincia = provincias::create([
+       //     'idProvincia' => 1,
+       //     'nombreProvincia' => 'Buenos Aires'
+       // ]);
 
     }
 }

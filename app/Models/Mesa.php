@@ -22,16 +22,13 @@ class Mesa extends Model
         'idProvincia'
     ];
 
-    // 🔹 FK: idProvincia → provincias.idProvincia
     public function provincia()
     {
         return $this->belongsTo(Provincia::class, 'idProvincia', 'idProvincia');
     }
 
-    // 🔹 Relación con Telegrama: FK en Telegrama.idMesa → Mesa.idMesa
     public function telegramas()
     {
         return $this->hasMany(Telegrama::class, 'idMesa', 'idMesa');
     }
-
 }

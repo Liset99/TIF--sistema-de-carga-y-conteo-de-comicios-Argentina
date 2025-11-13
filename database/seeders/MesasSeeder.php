@@ -14,12 +14,12 @@ class MesasSeeder extends Seeder
      */
     public function run()
     {
-        $mesa = Mesa::create([
-            'idMesa' => 1,
-            'establecimiento' => 'Escuela 1',
-            'circuito' => 'Circuito A',
-            'idProvincia' => 1
-        ]);
+        //$mesa = Mesa::create([
+        //    'idMesa' => 1,
+        //    'establecimiento' => 'Escuela 1',
+        //    'circuito' => 'Circuito A',
+        //    'idProvincia' => 1
+        //]);
 
     }
 }

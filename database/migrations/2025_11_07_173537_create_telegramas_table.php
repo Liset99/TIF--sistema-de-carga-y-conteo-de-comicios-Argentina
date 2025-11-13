@@ -6,12 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
+    public function up(): void
     {
         Schema::create('Telegrama', function (Blueprint $table) {
             $table->integer('idTelegrama')->primary();
@@ -24,21 +19,19 @@ return new class extends Migration
             $table->integer('idMesa');
             $table->integer('idUsuario');
 
-            $table->timestamps();
+            $table->foreign('idMesa')
+                  ->references('idMesa')
+                  ->on('Mesa')
+                  ->onDelete('cascade');
 
-            $table->foreign('idMesa')->references('idMesa')->on('Mesa');
-            $table->foreign('idUsuario')->references('idUsuario')->on('Usuario');
+            $table->foreign('idUsuario')
+                  ->references('idUsuario')
+                  ->on('Usuario')
+                  ->onDelete('cascade');
         });
-
-
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('Telegrama');
     }

@@ -3,43 +3,61 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Candidato;
 
 class CandidatosController extends Controller
 {
-    // Muestra todos los candidatos
+    // Listar todos los candidatos
     public function index()
     {  
-// Muestra todos los candidatos 
- { $candidatos = Candidato::all(); 
-    return response()->json($candidatos); }
+        $candidatos = Candidato::with(['persona', 'lista.provincia'])->get(); 
+        return response()->json($candidatos);
     }
 
-    // Crea un nuevo candidato
+    // Crear un nuevo candidato
     public function store(Request $request)
     {
         $request->validate([
-            'nombre' => 'required|string|max:100',
-            'cargo' => 'required|string|max:50',
-            'provincia' => 'required|string|max:100',
-            'lista' => 'required|string|max:100',
-            'orden_en_lista' => 'required|integer|min:1',
+            'idCandidato' => 'required|integer|unique:Candidato,idCandidato',
+            'cargo' => 'required|in:DIPUTADOS,SENADORES',
+            'dni' => 'required|integer|exists:Persona,dni',
+            'idLista' => 'required|integer|exists:Lista,idLista',
         ]);
 
         $candidato = Candidato::create($request->all());
 
-        return response()->json(['mensaje' => 'Candidato creado con éxito', 'candidato' => $candidato]);
+        return response()->json([
+            'mensaje' => 'Candidato creado con éxito', 
+            'candidato' => $candidato->load(['persona', 'lista'])
+        ], 201);
     }
 
-    // Actualiza un candidato existente
+    // Mostrar un candidato específico
+    public function show($id)
+    {
+        $candidato = Candidato::with(['persona', 'lista.provincia'])->findOrFail($id);
+        return response()->json($candidato);
+    }
+
+    // Actualizar un candidato
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'cargo' => 'sometimes|in:DIPUTADOS,SENADORES',
+            'dni' => 'sometimes|integer|exists:Persona,dni',
+            'idLista' => 'sometimes|integer|exists:Lista,idLista',
+        ]);
+
         $candidato = Candidato::findOrFail($id);
         $candidato->update($request->all());
 
-        return response()->json(['mensaje' => 'Candidato actualizado con éxito', 'candidato' => $candidato]);
+        return response()->json([
+            'mensaje' => 'Candidato actualizado con éxito', 
+            'candidato' => $candidato->load(['persona', 'lista'])
+        ]);
     }
 
-    // Elimina un candidato
+    // Eliminar un candidato
     public function destroy($id)
     {
         $candidato = Candidato::findOrFail($id);
@@ -47,23 +65,93 @@ class CandidatosController extends Controller
 
         return response()->json(['mensaje' => 'Candidato eliminado correctamente']);
     }
-    // Obtener candidatos por provincia y cargo
-    public function porProvinciaYCargo($provincia, $cargo) {
-        $candidatos = Candidato::where('provincia', $provincia)
-                             ->where('cargo', $cargo)
-                             ->orderBy('orden_en_lista')
-                             ->get();
-        return response()->json($candidatos);
-}
 
-// Calcular votos totales de un candidato (requiere relación con Telegrama)
-    public function totalVotos($idCandidato) {
-         $candidato = Candidato::findOrFail($idCandidato);
-         $votos = $candidato->telegramas()->sum('votos');
-         
-         return response()->json([
-        'candidato' => $candidato->nombre,
-        'total_votos' => $votos
-    ]);
-}
+    // Obtener candidatos por cargo (DIPUTADOS o SENADORES)
+    public function porCargo($cargo)
+    {
+        if (!in_array(strtoupper($cargo), ['DIPUTADOS', 'SENADORES'])) {
+            return response()->json(['error' => 'Cargo inválido. Use DIPUTADOS o SENADORES'], 400);
+        }
+
+        $candidatos = Candidato::where('cargo', strtoupper($cargo))
+                                ->with(['persona', 'lista.provincia'])
+                                ->get();
+        return response()->json($candidatos);
+    }
+
+    // Obtener candidatos por lista
+    public function porLista($idLista)
+    {
+        $candidatos = Candidato::where('idLista', $idLista)
+                                ->with(['persona', 'lista.provincia'])
+                                ->get();
+        return response()->json($candidatos);
+    }
+
+    // Obtener candidatos por provincia
+    public function porProvincia($idProvincia)
+    {
+        $candidatos = Candidato::whereHas('lista', function($query) use ($idProvincia) {
+                                    $query->where('idProvincia', $idProvincia);
+                                })
+                                ->with(['persona', 'lista.provincia'])
+                                ->get();
+        return response()->json($candidatos);
+    }
+
+    // Obtener candidatos por provincia y cargo
+    public function porProvinciaYCargo($idProvincia, $cargo)
+    {
+        if (!in_array(strtoupper($cargo), ['DIPUTADOS', 'SENADORES'])) {
+            return response()->json(['error' => 'Cargo inválido. Use DIPUTADOS o SENADORES'], 400);
+        }
+
+        $candidatos = Candidato::whereHas('lista', function($query) use ($idProvincia) {
+                                    $query->where('idProvincia', $idProvincia);
+                                })
+                                ->where('cargo', strtoupper($cargo))
+                                ->with(['persona', 'lista.provincia'])
+                                ->get();
+        return response()->json($candidatos);
+    }
+
+    // Total de votos de un candidato (basado en su lista)
+    public function totalVotos($idCandidato)
+    {
+        $candidato = Candidato::with(['persona', 'lista.provincia'])->findOrFail($idCandidato);
+        
+        // Los votos vienen de los resultados asociados a la lista del candidato
+        $votos = $candidato->lista->resultados()->sum('votos');
+        
+        return response()->json([
+            'candidato' => $candidato->persona->nombre ?? 'Sin nombre',
+            'cargo' => $candidato->cargo,
+            'lista' => $candidato->lista->nombre ?? 'Sin lista',
+            'provincia' => $candidato->lista->provincia->nombre ?? 'Sin provincia',
+            'total_votos' => $votos
+        ]);
+    }
+
+    // Importar candidatos desde CSV/JSON
+    public function importar(Request $request)
+    {
+        $request->validate([
+            'candidatos' => 'required|array',
+            'candidatos.*.idCandidato' => 'required|integer|unique:Candidato,idCandidato',
+            'candidatos.*.cargo' => 'required|in:DIPUTADOS,SENADORES',
+            'candidatos.*.dni' => 'required|integer|exists:Persona,dni',
+            'candidatos.*.idLista' => 'required|integer|exists:Lista,idLista',
+        ]);
+
+        $candidatosCreados = [];
+        foreach ($request->candidatos as $candidatoData) {
+            $candidatosCreados[] = Candidato::create($candidatoData);
+        }
+
+        return response()->json([
+            'mensaje' => 'Candidatos importados con éxito',
+            'total' => count($candidatosCreados),
+            'candidatos' => $candidatosCreados
+        ], 201);
+    }
 }
